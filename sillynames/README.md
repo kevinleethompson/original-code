@@ -1,5 +1,7 @@
 # sillynames
 
+## About
+
 This program mutates a normal personal name into a silly sounding version.
 	(Ex: "Kevin Thompson" may become "Kifin Tompsan" or "Quevil Thankson")
 
@@ -25,12 +27,20 @@ significantly to produce natural sound combinations. For example, if we treat th
 the unnatural combination "mt", producing the awkward name "Chumtlerk" instead of "Chumplerk."
 
 
-	Randomized shuffling of possible mutation targets and occassional "two-hop" mutations (mutating an already mutated part) are done
+Randomized shuffling of possible mutation targets and occassional "two-hop" mutations (mutating an already mutated part) are done
 to give results a higher rate of variation. However, the algorithm also ensures that not every word part gets mutated so that the
 result is still recognizable as a variation of the original name and not something entirely different.
 
 
+## How to Use
 
+Inside the folder containing <b>sillyname.py</b> and <b>wordparts.json</b>:
+
+```bash
+python sillyname.py Kevin Thompson  # or whatever name
+```
+
+---
 
 ### Wordparts Dictionary Excerpt:
 ```python
