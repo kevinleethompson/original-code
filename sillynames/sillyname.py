@@ -102,6 +102,7 @@ def filterPartsDict(p, leftPartType, rightPartType, partType):
 
 def mutateWordPart(p, leftPartType, rightPartType, partType):
 	if p == 'mc' or p == 'mac': return p
+	if p == 'e' and rightPartType == 0: return p
 	filteredParts = filterPartsDict(p, leftPartType, rightPartType, partType);
 	partsList = list(filteredParts)
 	random.shuffle(filteredParts[p]['mutations'])
