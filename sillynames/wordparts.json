@@ -1,9 +1,10 @@
 {
 	"vowel": {
 		"a": {"mutations": ["a", "o", "u"], "adj_l": 3, "adj_r": 3},
+		"ah": {"mutations": ["a", "o", "u"], "adj_l": 3, "adj_r": 3},
 		"ai": {"mutations": ["a", "ai", "e", "ei", "y"],"adj_l": 1, "adj_r": 1},
 		"au": {"mutations": ["a", "au", "o", "ou"], "adj_l": 1, "adj_r": 1},
-		"aw": {"mutations": ["aw", "ay", "ew", "ey", "oy"], "adj_l": 1, "adj_r": 3},
+		"aw": {"mutations": ["ay", "ew", "ey", "oy"], "adj_l": 1, "adj_r": 3},
 		"ay": {"mutations": ["ee", "ey", "oy"], "adj_l": 1, "adj_r": 1},
 		"e": {"mutations": ["e", "ee", "i"], "adj_l": 3, "adj_r": 3},
 		"ea": {"mutations": ["a", "e", "ea", "ee"], "adj_l": 1, "adj_r": 1},
