@@ -13,9 +13,7 @@ fn main() {
         let curr_mod = mod_iter.next().unwrap();
         curr_freq = curr_freq + curr_mod.1;
         if idx == modulations.len() - 1 {
-            println!("freq: {} idx: {} modlen: {}", &curr_freq, &idx, &(modulations.len() - 1));
-            println!("freq: {}", &curr_freq);
-            println!("should be true: {}", (&seen_freqs).contains(&-6));
+            println!("freq (part one): {}", &curr_freq);
         } else if idx >= modulations.len() {
             if (&seen_freqs).contains(&curr_freq) {
                 break curr_freq;
@@ -26,5 +24,5 @@ fn main() {
         idx += 1;
         seen_freqs.push(curr_freq);
     };
-    println!("repeat: {}", found_repeat);
+    println!("repeat (part two): {}", found_repeat);
 }
