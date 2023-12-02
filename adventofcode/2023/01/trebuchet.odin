@@ -7,37 +7,38 @@ import "core:fmt"
 main :: proc() {
   sum := 0
   file_str := read_whole_file("../inputs/01_input.txt")
-  for line in strings.split_lines_iterator(file_str) {
-    fmt.println(line)
+  for line in strings.split_lines_iterator(&file_str) {
     curr_num : int = -1
     line_len := len(line)
     for c, idx in line {
       if !is_alpha(c) {
         if curr_num < 0 {
-          curr_num = int(c)
-          sum += curr_num
+          curr_num = int(i8(c) - '0') 
+          sum += curr_num * 10
         } else {
-          curr_num = int(c)
-        }
-        if idx + 1 == line_len {
-          sum += curr_num
+          curr_num = int(i8(c) - '0')
         }
       }
+      if idx + 1 == line_len {
+        sum += curr_num
+      }
+    }
+    if sum < 1000 {
+      fmt.printf("line: %v, sum: %v\n", line, sum)
     }
   }
   fmt.println(sum)
 }
 
-read_whole_file :: proc(path: string) -> ^string {
+read_whole_file :: proc(path: string) -> string {
   data, ok := os.read_entire_file(path, context.allocator)
   if !ok {
     fmt.println("Could not read file")
-    return nil
   }
   defer delete(data, context.allocator)
 
   string_data := string(data)
-  return &string_data
+  return string_data
 }
 
 is_alpha :: proc(r: rune) -> bool {
