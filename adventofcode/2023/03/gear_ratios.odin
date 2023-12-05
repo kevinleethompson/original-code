@@ -11,8 +11,18 @@ main :: proc() {
 
   input_str := string(data)
   for line in strings.split_lines_iterator(&input_str) {
-
+    line_len := len(line)
+    line_copy := strings.clone(line)
+    for len(line_copy) > 1 {
+      found_num := strings.index_proc(line_copy, is_num)
+      width := 1
+      for is_num(line_copy[found_num + width]) { width += 1 }
+    }
   }
+}
+
+is_num :: proc(r: rune) -> bool {
+  return '0' <= r <= '9'
 }
 
 string_to_int :: proc(s: string) -> (result: int) {
