@@ -4,12 +4,13 @@ import "core:os"
 import "core:strings"
 import "core:fmt"
 import "core:slice"
+import utils "../utils"
 
 main :: proc() {
   num_word_map := map[string]int{ "one" = 1, "two" = 2, "three" = 3, "four" = 4, "five" = 5, "six" = 6, "seven" = 7, "eight" = 8, "nine" = 9 }
   defer delete_map(num_word_map)
   
-  num_words := keys_array(&num_word_map)
+  num_words, err := slice.map_keys(num_word_map)
   defer delete_slice(num_words, context.allocator)
 
   sum := 0
@@ -24,10 +25,10 @@ main :: proc() {
 
   for line in strings.split_lines_iterator(&file_str) {
     if sum < 500 { fmt.println(line) }
-    first_num_i := strings.index_proc(line, is_num)
-    last_num_i := strings.last_index_proc(line, is_num)
-    first_int := int(u8(rune(line[first_num_i])) - '0')
-    last_int :=  int(u8(rune(line[last_num_i])) - '0')
+    first_num_i := strings.index_proc(line, utils.is_num)
+    last_num_i := strings.last_index_proc(line, utils.is_num)
+    first_int := utils.rune_to_int(rune(line[first_num_i]))
+    last_int :=  utils.rune_to_int(rune(line[last_num_i]))
     
     line_remainder := strings.cut(line, last_num_i)
 
@@ -52,25 +53,6 @@ main :: proc() {
   fmt.println(sum)
 }
 
-// read_whole_file :: proc(path: string) -> string {
-//   data, ok := os.read_entire_file(path, context.allocator)
-//   if !ok {
-//     fmt.println("Could not read file")
-//   }
-//   defer delete(data, context.allocator)
-
-//   string_data := string(data)
-//   return string_data
-// }
-
-is_num :: proc(r: rune) -> bool {
-  result := false
-  switch r {
-    case '0'..='9': result = true
-  }
-  return result
-}
-
 find_last_substr_multi :: proc(s: string, substrs: []string) -> (int, string) {
   input_s := s
   slice.reverse_sort(substrs)
@@ -87,14 +69,4 @@ find_last_substr_multi :: proc(s: string, substrs: []string) -> (int, string) {
   }
 
   return -1, ""
-}
-
-keys_array :: proc(m: ^map[$T]$U, alloc := context.allocator) -> []T {
-  i := 0
-  keys := make_slice([]T, len(m), alloc)
-  for key in m {
-    keys[i] = key
-    i += 1
-  }
-  return keys
 }

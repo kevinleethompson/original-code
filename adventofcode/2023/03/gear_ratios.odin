@@ -22,15 +22,14 @@ main :: proc() {
 }
 
 is_num :: proc(r: rune) -> bool {
-  return '0' <= r <= '9'
+  return ('0' <= r) && (r <= '9')
 }
 
 string_to_int :: proc(s: string) -> (result: int) {
-  result := 0
+  result = 0
   orders := [5]int{1,10,100,1000,10000}
   for r, idx in strings.reverse(s) {
-    r_int := int(rune(u8(r) - '0'))
-    result += r_int * orders[idx]
+    result += int(r) * orders[idx]
   }
   return
 }
