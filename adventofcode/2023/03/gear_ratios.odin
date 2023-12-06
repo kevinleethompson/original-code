@@ -3,8 +3,12 @@ package main
 import "core:fmt"
 import "core:os"
 import "core:strings"
+import utils "../utils"
 
 main :: proc() {
+  current_lines: [3]map[string]map[string][]int
+  defer delete_map(current_lines)
+
   data, ok := os.read_entire_file("../inputs/03_input.txt")
   if !ok { fmt.println("Could not open file") }
   defer delete(data)
@@ -14,22 +18,9 @@ main :: proc() {
     line_len := len(line)
     line_copy := strings.clone(line)
     for len(line_copy) > 1 {
-      found_num := strings.index_proc(line_copy, is_num)
+      found_num := strings.index_proc(line_copy, utils.is_num)
       width := 1
-      for is_num(line_copy[found_num + width]) { width += 1 }
+      for utils.is_num(rune(line_copy[found_num + width])) { width += 1 }
     }
   }
-}
-
-is_num :: proc(r: rune) -> bool {
-  return ('0' <= r) && (r <= '9')
-}
-
-string_to_int :: proc(s: string) -> (result: int) {
-  result = 0
-  orders := [5]int{1,10,100,1000,10000}
-  for r, idx in strings.reverse(s) {
-    result += int(r) * orders[idx]
-  }
-  return
 }
