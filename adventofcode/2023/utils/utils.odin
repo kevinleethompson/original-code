@@ -35,7 +35,7 @@ string_to_int :: proc(s: string) -> (result: int) {
   return
 }
 /* Combines all provided arrays into one */
-concat_slices :: proc(slices: ..[]$T) -> (res: []$T) {
+concat_slices :: proc(slices: ..[dynamic]$T) -> (res: [dynamic]T) {
   res: []$T
   for s in slices {
     for item in s {

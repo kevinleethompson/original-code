@@ -13,8 +13,8 @@ Line_Objects :: struct {
 
 main :: proc() {
   part_number_sum := 0
-  line_view := []Line_Objects{}
-  defer delete(current_lines)
+  line_view := [dynamic]Line_Objects{}
+  defer delete(line_view)
 
   data, ok := os.read_entire_file("../inputs/03_input.txt")
   if !ok { fmt.println("Could not open file") }
@@ -61,19 +61,18 @@ main :: proc() {
       curr_line := line_view[0]
       prev_line_nums := find_vert_nums_touching_syms(prev_line, curr_line)
       curr_line_nums := find_vert_nums_touching_syms(curr_line, prev_line)
-      p_sum := slice.reduce(prev_line_nums, 0, proc(a:int, c:int) -> int { return a+c })
-      c_sum := slice.reduce(curr_line_nums, 0, proc(a:int, c:int) -> int { return a+c })
-
+      all_nums := utils.concat_slices(prev_line_nums, curr_line_nums)
+      part_number_sum += slice.reduce(curr_line_nums, 0, proc(a:int, c:int) -> int { return a+c })
     }
   }
 }
 
-find_horiz_nums_touching_syms :: proc(line_objs: Line_Objects) -> (res: []string) {
-  res: []string 
-  for num, idx_arr in num_line.numbers {
-    adj_left := slice.min(idx_arr) - 1
-    adj_right := slice.max(idx_arr) + 1
-    for sym, idx in num_line.symbols {
+find_horiz_nums_touching_syms :: proc(line_objs: Line_Objects) -> (res: [dynamic]string) {
+  for num, idx_arr in line_objs.numbers {
+    i_arr := idx_arr[:]
+    adj_left := slice.min(i_arr) - 1
+    adj_right := slice.max(i_arr) + 1
+    for sym, idx in line_objs.symbols {
       if adj_left == idx || adj_right == idx {
         append(&res, num)
       }
@@ -82,13 +81,13 @@ find_horiz_nums_touching_syms :: proc(line_objs: Line_Objects) -> (res: []string
   return
 }
 
-find_vert_nums_touching_syms :: proc(sym_line, num_line: Line_Objects) -> (res: []string) {
-  res: []string
+find_vert_nums_touching_syms :: proc(sym_line, num_line: Line_Objects) -> (res: [dynamic]string) {
   for sym, idx in sym_line.symbols {
     for num, idx_arr in num_line.numbers {
-      in_range := slice.contains(idx_arr, idx) ||
-                  slice.min(idx_arr) - 1 == idx ||
-                  slice.max(idx_arr) + 1 == idx;
+      i_arr := idx_arr[:]
+      in_range := slice.contains(i_arr, idx) ||
+                  slice.min(i_arr) - 1 == idx ||
+                  slice.max(i_arr) + 1 == idx;
       if in_range {
         append(&res, num)
       }
