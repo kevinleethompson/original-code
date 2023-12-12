@@ -28,7 +28,7 @@ rune_to_int :: proc(r: rune) -> int {
 /* Converts a numeric string into an integer */
 string_to_int :: proc(s: string) -> (result: int) {
   result = 0
-  powers_10 := [8]int{1,10,100,1000,10000,100000,1000000,10000000}
+  powers_10 := [13]int{1,10,100,1000,10000,100000,1000000,10000000,100000000,1000000000,10000000000,100000000000,1000000000000}
   for r, idx in strings.reverse(s) {
     result += rune_to_int(r) * powers_10[idx] 
   }
