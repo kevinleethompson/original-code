@@ -67,9 +67,9 @@ main :: proc() {
 }
 
 convert_source_to_dest :: proc(source: u64, conv_map: Conversion_Map) -> (res: u64) {
-  end_range := conv_map.source + conv_map.range
+  end_range := conv_map.source + conv_map.range - 1
   dest_is_greater := conv_map.dest > conv_map.source
-  difference := math.abs(conv_map.dest - conv_map.source)
+  difference := dest_is_greater ? conv_map.dest - conv_map.source : conv_map.source - conv_map.dest
   if (source >= conv_map.source) && (source <= end_range) {
     res = dest_is_greater ? source + difference : source - difference
   } else {
