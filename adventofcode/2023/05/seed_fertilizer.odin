@@ -47,18 +47,24 @@ main :: proc() {
   }
 
   seed_to_end_dest_map: map[u64]u64
+  defer delete_map(seed_to_end_dest_map)
 
-  for seed in seeds {
-    current_source := seed
-    current_dest: u64
-    for name in map_order {
-      for conv_map in mappings[name] {
-        current_dest = convert_source_to_dest(current_source, conv_map)
-        if current_dest != current_source { break }
+  for seed, idx in seeds {
+    if idx % 2 != 0 { continue }
+    fmt.printf("seed: %v\n", seed)
+    seed_range_end := seed + seeds[idx + 1]
+    for s in seed..=seed_range_end {
+      current_source := s
+      current_dest: u64
+      for name in map_order {
+        for conv_map in mappings[name] {
+          current_dest = convert_source_to_dest(current_source, conv_map)
+          if current_dest != current_source { break }
+        }
+        current_source = current_dest
       }
-      current_source = current_dest
+      seed_to_end_dest_map[seed] = current_dest
     }
-    seed_to_end_dest_map[seed] = current_dest
   }
   
   fmt.println(seed_to_end_dest_map)
